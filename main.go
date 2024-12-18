@@ -29,17 +29,20 @@ func newServer() *server {
 func main() {
 
 	port := flag.String("port", "9100", "Local port to bind to")
+	logRequests := flag.Bool("log-requests", true, "Whether to log requests with middleware")
 	flag.Parse()
 
-	if err := run(*port); err != nil {
+	if err := run(*port, *logRequests); err != nil {
 		log.Fatalf("%v", err)
 	}
 }
 
-func run(port string) error {
+func run(port string, logRequests bool) error {
 	s := &server{}
 	router := chi.NewRouter()
-	router.Use(middleware.Logger)
+	if logRequests {
+		router.Use(middleware.Logger)
+	}
 	s.router = router
 	s.routes()
 
@@ -51,7 +54,7 @@ func run(port string) error {
 	return nil
 }
 
-func HandleHealthCheck(w http.ResponseWriter, r *http.Request) {
+func handleHealthCheck(w http.ResponseWriter, r *http.Request) {
 	response := map[string]string{"status": "ok"}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -59,7 +62,7 @@ func HandleHealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
-func HandleHiMom(w http.ResponseWriter, r *http.Request) {
+func handleHiMom(w http.ResponseWriter, r *http.Request) {
 	response := map[string]string{"message": "Hi, Mom!"}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -67,7 +70,7 @@ func HandleHiMom(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
-func HandleEchoUrlParameter(w http.ResponseWriter, r *http.Request) {
+func handleEchoUrlParameter(w http.ResponseWriter, r *http.Request) {
 	parameter := chi.URLParam(r, "parameter")
 	response := map[string]string{"parameter": parameter}
 	w.Header().Set("Content-Type", "application/json")

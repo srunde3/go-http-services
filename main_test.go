@@ -12,7 +12,7 @@ func TestHealthEndpoint(t *testing.T) {
 	r := httptest.NewRequest(http.MethodGet, "/health", nil)
 	w := httptest.NewRecorder()
 
-	handler := http.HandlerFunc(HandleHealthCheck)
+	handler := http.HandlerFunc(handleHealthCheck)
 	handler.ServeHTTP(w, r)
 
 	if status := w.Code; status != http.StatusOK {
@@ -30,7 +30,7 @@ func TestHiMomEndpoint(t *testing.T) {
 	r := httptest.NewRequest(http.MethodGet, "/hi-mom", nil)
 	w := httptest.NewRecorder()
 
-	handler := http.HandlerFunc(HandleHiMom)
+	handler := http.HandlerFunc(handleHiMom)
 	handler.ServeHTTP(w, r)
 
 	if status := w.Code; status != http.StatusOK {

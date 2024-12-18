@@ -1,7 +1,7 @@
 package main
 
 func (s *server) routes() {
-	s.router.Get("/health", HandleHealthCheck)
-	s.router.Get("/hi-mom", HandleHiMom)
-	s.router.Get("/echo/{parameter}", HandleEchoUrlParameter)
+	s.router.Get("/health", handleHealthCheck)
+	s.router.Get("/hi-mom", handleHiMom)
+	s.router.Get("/echo/{parameter}", handleEchoUrlParameter)
 }
