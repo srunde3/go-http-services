@@ -73,3 +73,22 @@ func TestHiMomRouter(t *testing.T) {
 		t.Errorf("Handler returned unexpected body: got %v, want %v", w.Body.String(), expected)
 	}
 }
+
+func TestEchoUrlParameterRouter(t *testing.T) {
+	r := httptest.NewRequest(http.MethodGet, "/echo/12345", nil)
+	w := httptest.NewRecorder()
+
+	s := newServer()
+
+	s.ServeHTTP(w, r)
+
+	if status := w.Code; status != http.StatusOK {
+		t.Errorf("Handler returned wrong status code: got %v, want %v", status, http.StatusOK)
+	}
+
+	expected := `{"parameter":"12345"}`
+
+	if w.Body.String() != expected {
+		t.Errorf("Handler returned unexpected body: got %v, want %v", w.Body.String(), expected)
+	}
+}
