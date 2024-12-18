@@ -1,4 +1,4 @@
-module http-server
+module github.com/srunde3/go-http-services
 
 go 1.22.2
 
