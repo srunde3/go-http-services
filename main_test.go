@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/go-chi/chi/v5"
 )
 
 func TestHealthEndpoint(t *testing.T) {
@@ -50,8 +48,7 @@ func TestHealthRouter(t *testing.T) {
 	r := httptest.NewRequest(http.MethodGet, "/health", nil)
 	w := httptest.NewRecorder()
 
-	s := server{router: chi.NewRouter()}
-	s.routes()
+	s := newServer()
 
 	s.ServeHTTP(w, r)
 
